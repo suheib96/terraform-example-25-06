@@ -7,7 +7,4 @@ resource "aws_instance" "erste_instanzen" {
   ami             = "ami-051eaec1417c5d4ae"
   security_groups = ["default"]
   key_name = "25-06-key"
-  tags = {
-    Name = "2. Push"
-  }
 }
