@@ -8,6 +8,6 @@ resource "aws_instance" "erste_instanzen" {
   security_groups = ["default"]
   key_name = "25-06-key"
   tags = {
-    Name = "1. Push"
+    Name = "2. Push"
   }
 }
