@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Studio</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    header {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #2563eb);
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      width: 100%;
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #38bdf8;
+    }
+
+    .menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .hero {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 50px;
+      padding: 120px 8% 60px;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-text h1 span {
+      color: #38bdf8;
+    }
+
+    .hero-text p {
+      max-width: 580px;
+      color: #cbd5e1;
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #020617;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(16px);
+      animation: floatCard 4s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    .hero-card img {
+      width: 100%;
+      border-radius: 22px;
+      margin-bottom: 22px;
+    }
+
+    .hero-card h3 {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .hero-card p {
+      color: #cbd5e1;
+    }
+
+    section {
+      padding: 90px 8%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .section-title h2 {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: #94a3b8;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      background: #243449;
+    }
+
+    .icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: #38bdf8;
+      color: #020617;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      margin-bottom: 22px;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .feature-card p {
+      color: #cbd5e1;
+    }
+
+    .stats {
+      background: #020617;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-box {
+      padding: 28px;
+      background: #0f172a;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-box h3 {
+      font-size: 38px;
+      color: #38bdf8;
+    }
+
+    .stat-box p {
+      color: #94a3b8;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      cursor: pointer;
+      background: #1e293b;
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+
+    .portfolio-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .portfolio-info {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(2,6,23,0.95), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .portfolio-item:hover .portfolio-info {
+      opacity: 1;
+    }
+
+    .contact {
+      background: linear-gradient(135deg, #1e293b, #020617);
+      text-align: center;
+    }
+
+    .contact-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.07);
+      padding: 40px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .contact-box h2 {
+      font-size: 38px;
+      margin-bottom: 16px;
+    }
+
+    .contact-box p {
+      color: #cbd5e1;
+      margin-bottom: 26px;
+    }
+
+    footer {
+      padding: 28px 8%;
+      text-align: center;
+      color: #94a3b8;
+      background: #020617;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .features,
+      .portfolio-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .buttons {
+        justify-content: center;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 78px;
+        right: 8%;
+        background: #020617;
+        flex-direction: column;
+        width: 220px;
+        padding: 20px;
+        border-radius: 18px;
+        display: none;
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="home">
+    <nav>
+      <div class="logo">Nova<span>Studio</span></div>
+
+      <button class="menu-button" id="menuButton">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Start</a></li>
+        <li><a href="#services">Leistungen</a></li>
+        <li><a href="#portfolio">Projekte</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Wir bauen digitale Erlebnisse, die <span>begeistern</span>.</h1>
+        <p>
+          Eine moderne Beispiel-Website mit HTML, CSS und JavaScript in nur einer Datei.
+          Perfekt zum Lernen, Anpassen und Weiterentwickeln.
+        </p>
+        <div class="buttons">
+          <a href="#services" class="btn btn-primary">Mehr erfahren</a>
+          <a href="#portfolio" class="btn btn-secondary">Projekte ansehen</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80" alt="Modernes Büro" />
+        <h3>Kreativ. Schnell. Modern.</h3>
+        <p>
+          Diese Karte schwebt leicht durch eine CSS-Animation und zeigt, wie lebendig eine einfache Website wirken kann.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <section id="services">
+    <div class="section-title reveal">
+      <h2>Unsere Leistungen</h2>
+      <p>Alles, was eine moderne Website braucht: gutes Design, klare Struktur und kleine interaktive Effekte.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature-card reveal">
+        <div class="icon">⚡</div>
+        <h3>Schnelle Websites</h3>
+        <p>Sauberer Code sorgt dafür, dass deine Website schnell lädt und angenehm zu bedienen ist.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="icon">🎨</div>
+        <h3>Modernes Design</h3>
+        <p>Mit Farben, Abständen, Schatten und Animationen wirkt die Seite professionell und frisch.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="icon">📱</div>
+        <h3>Responsive Layout</h3>
+        <p>Die Website passt sich automatisch an Desktop, Tablet und Smartphone an.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats reveal">
+    <div class="stat-box">
+      <h3 class="counter" data-target="120">0</h3>
+      <p>Projekte</p>
+    </div>
+    <div class="stat-box">
+      <h3 class="counter" data-target="85">0</h3>
+      <p>Kunden</p>
+    </div>
+    <div class="stat-box">
+      <h3 class="counter" data-target="15">0</h3>
+      <p>Jahre Erfahrung</p>
+    </div>
+    <div class="stat-box">
+      <h3 class="counter" data-target="99">0</h3>
+      <p>% Zufriedenheit</p>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="section-title reveal">
+      <h2>Beispiel-Projekte</h2>
+      <p>Hover über die Bilder, um den Effekt zu sehen.</p>
+    </div>
+
+    <div class="portfolio-grid">
+      <div class="portfolio-item reveal">
+        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80" alt="Team arbeitet am Laptop" />
+        <div class="portfolio-info">
+          <h3>Business Website</h3>
+          <p>Eine klare Website für ein modernes Unternehmen.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item reveal">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Laptop mit Code" />
+        <div class="portfolio-info">
+          <h3>Dashboard</h3>
+          <p>Ein übersichtliches Interface für Daten und Statistiken.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item reveal">
+        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Meeting" />
+        <div class="portfolio-info">
+          <h3>Landing Page</h3>
+          <p>Eine schöne Startseite für Produkte und Kampagnen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-box reveal">
+      <h2>Bereit für dein Projekt?</h2>
+      <p>
+        Diese Website ist nur ein Startpunkt. Du kannst Texte, Farben, Bilder und Bereiche beliebig anpassen.
+      </p>
+      <button class="btn btn-primary" id="contactButton">Kontakt aufnehmen</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 NovaStudio. Erstellt mit HTML, CSS und JavaScript in einer Datei.</p>
+  </footer>
+
+  <script>
+    const menuButton = document.getElementById('menuButton');
+    const navLinks = document.getElementById('navLinks');
+
+    menuButton.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    const revealElements = document.querySelectorAll('.reveal');
+
+    function revealOnScroll() {
+      for (const element of revealElements) {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const revealPoint = 120;
+
+        if (elementTop < windowHeight - revealPoint) {
+          element.classList.add('active');
+        }
+      }
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+    const counters = document.querySelectorAll('.counter');
+    let countersStarted = false;
+
+    function startCounters() {
+      if (countersStarted) return;
+
+      const statsSection = document.querySelector('.stats');
+      const sectionTop = statsSection.getBoundingClientRect().top;
+
+      if (sectionTop < window.innerHeight - 100) {
+        countersStarted = true;
+
+        counters.forEach(counter => {
+          const target = Number(counter.dataset.target);
+          let current = 0;
+          const step = Math.ceil(target / 80);
+
+          const interval = setInterval(() => {
+            current += step;
+
+            if (current >= target) {
+              counter.textContent = target;
+              clearInterval(interval);
+            } else {
+              counter.textContent = current;
+            }
+          }, 20);
+        });
+      }
+    }
+
+    window.addEventListener('scroll', startCounters);
+    startCounters();
+
+    const contactButton = document.getElementById('contactButton');
+
+    contactButton.addEventListener('click', () => {
+      alert('Danke für dein Interesse! Hier könnte später ein Kontaktformular erscheinen.');
+    });
+  </script>
+</body>
+</html>

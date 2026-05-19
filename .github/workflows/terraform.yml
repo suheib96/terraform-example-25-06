@@ -18,9 +18,26 @@ jobs:
                   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: eu-central-1
-            
+
             - name: Terraform Init
               run: terraform init
 
             - name: Terraform Apply
               run: terraform apply -auto-approve
+
+            - name: ssh setup
+              # sleep ist nur provisorisch hier, muss noch optimiert werden
+              run: |
+                  sleep 15
+                  ip=$(terraform output -raw public_ips)
+                  mkdir -p ~/.ssh
+                  echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/meinPrivateKey
+                  chmod 400 ~/.ssh/meinPrivateKey
+                  ssh-keyscan -H $ip >> ~/.ssh/known_hosts
+
+            - name: deploy website
+              run: |
+                  ip=$(terraform output -raw public_ips)
+                  ssh -i ~/.ssh/meinPrivateKey ubuntu@$ip 'sudo apt update && sudo apt install -y nginx'
+                  scp -i ~/.ssh/meinPrivateKey index.html ubuntu@$ip:/home/ubuntu/index.html
+                  ssh -i ~/.ssh/meinPrivateKey ubuntu@$ip "sudo mv /home/ubuntu/index.html /var/www/html/index.html"
